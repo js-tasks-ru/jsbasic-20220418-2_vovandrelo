@@ -3,7 +3,6 @@ import createElement from '../../assets/lib/create-element.js';
 export default class CartIcon {
   constructor() {
     this.render();
-
     this.addEventListeners();
   }
 
@@ -12,6 +11,7 @@ export default class CartIcon {
   }
 
   update(cart) {
+    console.log(cart);
     if (!cart.isEmpty()) {
       this.elem.classList.add('cart-icon_visible');
 
@@ -39,6 +39,34 @@ export default class CartIcon {
   }
 
   updatePosition() {
-    // ваш код ...
+    if (this.elem.offsetHeight !== 0) {
+      let initialTopCoord = this.elem.getBoundingClientRect().top + window.pageYOffset;
+
+      if (document.documentElement.clientWidth <= 767) {
+        this.elem.style.position = "";
+        this.elem.style.top = "";
+        this.elem.style.zIndex = "";
+        this.elem.style.left = "";
+        this.elem.style.left = "";
+        return;
+      }
+
+      if (window.pageYOffset > initialTopCoord) {
+        this.elem.style.position = "fixed";
+        this.elem.style.top = "50px";
+        this.elem.style.zIndex = 1000;
+        const offsetRight = document.querySelector('.container').getBoundingClientRect().right + 20;
+        const offsetLeft = document.documentElement.clientWidth - this.elem.offsetWidth - 10;
+        const newOffset = Math.min(offsetRight, offsetLeft);
+        this.elem.style.left = newOffset + "px";
+        this.elem.style.left = newOffset + "px";
+      } else if (window.pageYOffset === 0) {
+        this.elem.style.position = "";
+        this.elem.style.top = "";
+        this.elem.style.zIndex = "";
+        this.elem.style.left = "";
+        this.elem.style.left = "";
+      }
+    }
   }
 }
